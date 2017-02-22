@@ -1,0 +1,138 @@
+body{
+	background-image: url(../img/index/hit1.jpg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-color: #FFF;
+	min-height: 600px;
+}
+.navbar{
+    background-color: rgba(255,255,255,0.4);
+}
+.default-logo {
+    font-family: "Playball",cursive;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    line-height: 40px;
+}
+
+.default-menu.navbar-default .navbar-nav > li > a{
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 40px !important;
+    font-family: "Raleway",sans-serif;
+    letter-spacing: 0.3px;
+    padding: 15px 20px;
+    text-transform: uppercase;
+}
+.default-menu.navbar-default .navbar-nav > li > a:hover{
+    color:green;
+}
+.default-menu.navbar-default .navbar-nav > .active > a, 
+.default-menu.navbar-default .navbar-nav > .active > a:focus, 
+.default-menu.navbar-default .navbar-nav > .active > a:hover{
+    background-color: transparent;
+    color: #8FC93F;
+}
+
+.default-menu.menu{
+    border-bottom: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+.default-menu.menu .default-logo{
+    color: #ccc;
+}
+
+.default-menu.menu .navbar-nav > li > a{
+    color: #ccc;
+}
+
+.default-menu.menu .navbar-nav > li > a:before,
+.default-menu.menu .navbar-nav > li > a:after{
+    color: transparent;
+    font-size: 13px;
+    position: absolute;
+    transition: all 0.5s ease-in-out; 
+    margin-top: -1px;
+}
+
+.default-menu.menu .navbar-nav > li > a:before{
+    content: '[';
+    left: -10px;
+}
+
+.default-menu.menu .navbar-nav > li > a:after{
+    content: ']';
+    right: -10px;
+}
+
+.default-menu.menu .navbar-nav > li > a:hover:after,
+.default-menu.menu .navbar-nav > li > a:hover:before{
+    color: #8FC93F; 
+}
+
+.default-menu.menu .navbar-nav > li > a:hover:before{
+    left: 8px;
+}
+
+.default-menu.menu .navbar-nav > li > a:hover:after{
+    right: 8px;
+}
+
+.default-menu.navbar-default .navbar-nav > li:last-child > a:after,
+.default-menu.navbar-default .navbar-nav > li:last-child > a:before{
+    content: '';
+}
+.locate{
+	font-size: 16px;
+	position: relative;
+	margin-top: 150px;
+	width:350px;
+	border-bottom: 2px #aaa solid;
+	color:#121212;
+}
+.article{
+	padding:50px;
+	min-height: 300px;
+	width:800px;
+	background-color: rgba(255,251,240,0.7);
+	margin-top:50px;
+	font-size: 15px;
+	font-family: "微软雅黑";
+}
+.article a{
+	text-decoration: none;
+}
+.article_title{
+	font-family: "微软雅黑";
+	font-size: 28px;
+	color:#121212;
+	margin-bottom: 30px;
+}
+.time{
+	display:inline-block;
+	margin-bottom: 10px;
+	font-size: 16px;
+	color:green;
+	margin-right: 20px;
+}
+.article_content{
+	letter-spacing: 1px;
+	font-family: "微软雅黑";
+	font-size: 15px;
+}
+.attention{
+	margin-top: 10px;
+	color:red;
+	display: inline-block;
+	margin-bottom: 20px;
+}
+#file{
+	display:inline;
+	border:1px #aaa solid;
+}
+#upload{
+	display:inline;
+}

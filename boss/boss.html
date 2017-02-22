@@ -1,0 +1,205 @@
+<link rel="stylesheet" type="text/css" href="css/boss.css">
+<link rel="stylesheet" type="text/css" 
+  href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" type="text/css" href="mutiselect/multiselectSrc/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="mutiselect/assets/style.css" />
+<link rel="stylesheet" type="text/css" href="mutiselect/assets/prettify.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+	<section class="head">
+		<div ng-include="'boss/bossNavbar.html'"></div>
+
+		<div class="modal fade" id="start_activity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="bActivityCtrl">
+  							<div class="modal-dialog">
+    							<div class="modal-content">
+      								<div class="modal-header">
+        								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       									<h4 class="modal-title" id="myModalLabel">发布活动面板</h4>
+      								</div>
+      								<div class="modal-body">
+      									<form enctype="multipart/form-data" id="activityForm" method="post">
+      										<input type="hidden" name="tasCreId" value="{{user.userId}}" />
+      										<div class="input-group input-group-title">
+												<span class="input-group-addon">活动标题</span>
+												<input type="text" id="activity_title" name="acTitle" class="form-control" placeholder="请输入活动的标题">
+											</div>
+											<div style="margin-bottom:15px;margin-left:84px;" class="input-group">
+												<span class="input-group-addon">活动时间</span>
+												<input type="text" placeholder="请点击来确定时间" id="start_time" name="acCreDate" class="form_datetime">至：
+												<input type="text" placeholder="请点击来确定时间" id="end_time" name="acDueDate" class="form_datetime"><br/>
+											</div>
+											<div style="margin-bottom:15px;margin-left:84px;" class="input-group">
+												<span class="input-group-addon">报名截止时间</span>
+												<input type="text" placeholder="请点击来确定时间" id="end_join" name="acSigDueDate" class="form_datetime"><br/>
+											</div>
+											<div style="margin-bottom:15px;margin-left:84px;" class="input-group">
+												<span class="input-group-addon">报名汇总截止时间</span>
+												<input type="text" placeholder="请点击来确定时间" id="end_task" name="tasDueDate" class="form_datetime"><br/>
+											</div>
+											<div style="margin-bottom:15px;" class="input-group input-group-body">
+												<span class="input-group-addon">活动详介</span>
+												<textarea id="activity_content" name="acDesc" class="form-control" placeholder="请输入活动详细内容、介绍等"></textarea>
+											</div>
+											<div class="input-group input-group-body" style="margin-bottom:10px;">
+												<span class="time">学院：</span>
+												<select id="acAcademy" multiple="multiple">
+                									<option value="航天学院">航天学院</option>
+                									<option value="电信学院">电信学院</option>
+                									<option value="机电学院">机电学院</option>
+                									<option value="材料学院">材料学院</option>
+                									<option value="能源学院">能源学院</option>
+                									<option value="电气学院">电气学院</option>
+                									<option value="理学院">理学院</option>
+                									<option value="生命学院">生命学院</option>
+                									<option value="经济与管理学院">经济与管理学院</option>
+                									<option value="人文学院">人文学院</option>
+                									<option value="土木学院">土木学院</option>
+                									<option value="市政学院">市政学院</option>
+                									<option value="建筑学院">建筑学院</option>
+                									<option value="交通学院">交通学院</option>
+                									<option value="计算机学院">计算机学院</option>
+                									<option value="软件学院">软件学院</option>
+                									<option value="外国语学院">外国语学院</option>
+                									<option value="法学院">法学院</option>
+                									<option value="体育部">体育部</option>
+                									<option value="化工学院">化工学院</option>
+                									<option value="马克思主义学院">马克思主义学院</option>
+              									</select>
+											</div>
+											<div style="margin-bottom:10px;">
+											<span class="time" style="margin-left:84px;">活动类型:</span>
+											<select  id="leixing" name="acType">
+												<option value="社会实践">社会实践</option>
+												<option value="立项研究">立项研究</option>
+												<option value="主题教育">主题教育</option>
+												<option value="评优评奖">评优评奖</option>
+												<option value="素质讲座">素质讲座</option>
+												<option value="文化品牌">文化品牌</option>
+											</select>
+											</div>
+											<div style="margin-bottom:15px;margin-left:84px;">
+												活动文件：<input type="file" name="file1" />
+												<input type="hidden" name="acCreId" 
+													value="{{user.userId}}" />
+											</div>
+      									</form>
+      								</div>
+      								<div class="modal-footer">
+        								<button class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button class="btn btn-success" id="publish" ng-click="addActivity()">发布</button>
+      								</div>
+      							</div>
+      						</div>
+      					</div>
+
+		<!--滚动公告-->
+         
+		<div class="head_content" id="head_content"> 
+					<div class="announce carousel slide tab-pane fade in active" id="ann1" ng-init="selectAnnounces(1)">
+						<ol class="carousel-indicators">
+							<li data-target="#ann1" data-slide-to="0" class="active"></li>
+							<li data-target="#ann1" data-slide-to="1"></li>
+							<li data-target="#ann1" data-slide-to="2"></li>
+							<li data-target="#ann1" data-slide-to="3"></li>
+							<li data-target="#ann1" data-slide-to="4"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div id="item1" class="item active">
+								<h4 class="carousel_caption">{{announces[0].anTitle}}</h4>
+								<p>{{announces[0].anDesc}}</p>
+							</div>
+							<div id="item2" class="item ">
+								<h4 class="carousel_caption">{{announces[1].anTitle}}</h4>
+								<p>{{announces[1].anDesc}}</p>
+							</div>
+							<div id="item3" class="item ">
+								<h4 class="carousel_caption">{{announces[2].anTitle}}</h4>
+								<p>{{announces[2].anDesc}}</p>
+							</div>
+							<div id="item4" class="item ">
+								<h4 class="carousel_caption">{{announces[3].anTitle}}</h4>
+								<p>{{announces[3].anDesc}}</p>
+							</div>
+							<div id="item5" class="item ">
+								<h4 class="carousel_caption">{{announces[4].anTitle}}</h4>
+								<p>{{announces[4].anDesc}}</p>
+							</div>
+						</div>
+					</div>
+		</div><!--滚动公告结束-->
+	</section>
+
+	<section class="content" id="event" ng-controller="bActivityCtrl">
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li class="active"><a ng-click="chooseActivity('new')" data-toggle="tab">未结束活动</a></li>
+				<li><a ng-click="chooseActivity('over')" data-toggle="tab">已结束活动</a></li>
+			</ul>
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 eventlist" ng-repeat="activity in activities">
+					<h2>{{activity.acTitle}}
+						<span id="event_xueyuan" style="margin-left:30px;font-size:16px;">举办学院:
+							<span ng-repeat="academy in activity.academys">{{academy+" "}}</span>
+						</span>
+						<span id="event_leixing" style="margin-left:30px;font-size:16px;">活动类型：{{activity.acType}}</span>
+					</h2>
+					<div class="time">
+						<span>开始时间:{{activity.acCreDate}}</span>&nbsp;&nbsp;
+						<span>截止时间:{{activity.acDueDate}}</span>&nbsp;&nbsp;
+						<span>报名截止:{{activity.acSigDueDate}}</span>&nbsp;&nbsp;
+					</div><br />
+					<div>
+						<p style="font-size:20px;">{{activity.acDesc}}</p>
+					</div><br />
+					<div>
+						<span>报名表：{{activity.acDoc1Name}}</span>
+					</div>
+					<a href="" ng-click="deleteAct(activity.acId)" style="color:red;">删除活动</a>
+					<a href="#/boss/alterAct/{{activity.acId}}">修改活动</a>
+					<a href="#/boss/assignTask/{{activity.acId}}">指派任务</a>
+					<a href="#/boss/applyTable/{{activity.acId}}">报名名单</a>
+				</div>
+			</div>
+			<tm-pagination conf="bActivityPage"></tm-pagination>
+		</div>
+		
+	</section>
+
+
+	<section class="footer">
+		<p>Harbin Institute of Technology</p>
+		<p>哈尔滨工业大学</p>
+		<p class="copyright">Copyright 2016. All Rights Reserved.</p>      						
+	</section>
+<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8">
+</script>
+<script type="text/javascript" src="bower_components/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js" 
+  charset="UTF-8"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="mutiselect/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="mutiselect/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="mutiselect/assets/prettify.js"></script>
+<script type="text/javascript" src="mutiselect/multiselectSrc/jquery.multiselect.js"></script>
+<script src="js/tools.js"></script>
+<script type="text/javascript">
+$('#end_task').datetimepicker({
+    language:  'zh-CN',
+    format: "yyyy-MM-dd hh:ii",
+    weekStart: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 1,
+    forceParse: 0,
+    todayBtn:true,
+  });
+
+$(function(){
+    $("#acAcademy").multiselect({
+        noneSelectedText: "==请选择==",
+        checkAllText: "全选",
+        uncheckAllText: '全不选',
+        selectedList:4
+    });
+});
+</script>
+	

@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="css/student_article.css">
+<div ng-controller="sActivityCtrl">
+	<section class="locate">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-5">
+					<span>您现在的位置：</span><a href="#/student">首页</a><span>——&gt;</span><a href="#/student/detail/{{activity.acId}}">活动详情</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<form id="applyForm" method="post" name="myForm" novalidate>
+				<div class="col-md-offset-2 col-md-8 article">
+					<h3 class="article_title " >活动标题: {{activity.acTitle}}</h3>
+					<span id="start_time" class="time">开始日期：{{activity.acCreDate}}</span>
+					<span id="end_time" class="time">截止日期：{{activity.acDueDate}}</span>
+					<span id="end_join" class="time">报名截止日期：{{activity.acSigDueDate}}</span>
+					<p class="article_content">{{activity.acDesc}}</p>
+					<span>下载报名表：</span><a href="http://www.ly723.site:2048/StudentManager2/activityfileDownload.action?fileName={{activity.acDoc1Name}}&acId={{activity.acId}}">{{activity.acDoc1Name}}</a><br>
+					<span class="attention">注：上传文件必须为下载的报名表，否则无法报名.</span><br>
+					<input type="file" class="btn " id="file" name="file1" />
+					<input type="hidden" name="sigAcId" value="{{activity.acId}}" />
+					<input type="hidden" name="sigPerId" value="{{user.userId}}" />
+					<input type="hidden" name="sigPerName" value="{{user.userName}}">
+					<button class="btn btn-success" ng-click="apply()" ng-disabled="activity.sigStatus==1 || activity.sigStatus==0">报名</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</section>
+</div>

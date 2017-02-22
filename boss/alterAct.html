@@ -1,0 +1,44 @@
+<link rel="stylesheet" type="text/css" href="css/alterAct.css">
+<link rel="stylesheet" type="text/css" 
+	href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css">
+<div ng-controller="bActivityCtrl">
+<section class="locate">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-5">
+				<span>您现在的位置：</span><a href="#/boss">首页</a><span>——&gt;</span><a href="#/boss/alterAct/{{activity.acId}}">活动管理</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-2	 col-md-8 article">
+				<form id="alterActForm" method="post">
+				<input type="hidden" name="acCreId" value="{{user.userId}}" />
+				<input type="hidden" name="acId" value="{{activity.acId}}">
+				<h3 class="article_title">活动标题:</h3><h3 id="title1" class="article_title">{{activity.acTitle}}</h3><a href="" onClick="input_cg(this)">修改标题</a><br/>
+				<span class="time">活动开始日期：<input type="text" id="start_time" name="acCreDate" data-date-format="yyyy-mm-dd" class="form_datetime" ng-model="activity.acCreDate"></span>
+				<span class="time">活动截止日期：<input type="text" id="end_time" name="acDueDate"
+					data-date-format="yyyy-mm-dd" class="form_datetime" ng-model="activity.acDueDate"></span>
+				<span class="time">报名截止日期：<input type="text" id="end_join" name="acSigDueDate"
+					data-date-format="yyyy-mm-dd" class="form_datetime" ng-model="activity.acSigDueDate">
+				</span><br/>
+				<span style="font-size:17px;">活动内容：</span><p class="article_content" id="content1" style="font-size:19px;">&nbsp;&nbsp;&nbsp;<em>{{activity.acDesc}}</em></p><a href="" onClick="textarea_cg(this)">修改内容</a><br/>
+				<span>执行人：</span><span ng-repeat="p in task.tasDue">{{p.name}} </span>
+				<span>报名表：{{activity.acDoc1Name}}</span>
+				<input type="file" id="join_file" name="file1">
+				<button type="submit" class="upload btn btn-success" ng-click="changeAct()">确定修改</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+</div>
+<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8">
+</script>
+<script type="text/javascript" src="bower_components/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js" 
+	charset="UTF-8"></script>
+<script src="js/tools.js"></script>

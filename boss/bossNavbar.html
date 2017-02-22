@@ -1,0 +1,171 @@
+<div style="background-color:rgba(0,0,0,0.3);border-bottom:none;" class="navbar navbar-default default-menu menu" role="navigation">
+			<div class="container nav_container" style="width:100%;">
+				<div class="row">
+					<div class=" col-sm-2 ">
+						<a class="navbar-brand default-logo" href="#/boss">SYSTEM</a>
+					</div>
+					<div class=" col-sm-9 col-sm-offset-1" style="float:right;">
+						<div class="collapse navbar-collapse  navbar-right" id="menu">
+								<ul class="nav navbar-nav" id="logged">
+									<li><a class="scroll" href="#/boss">首页</a></li>
+									<li><a class="scroll" data-toggle="modal" data-target="#start_activity" ng-controller="bActivityCtrl">发布活动</a>
+									</li>
+									<li><a class="scroll" href="#/boss#event">查看活动</a>
+									</li>
+									<!--<li><a class="scroll" href="#/boss/createTask">指派任务</a>-->
+									<li><a class="scroll" href="#/boss/myTask">我的任务</a>
+									</li>
+									</li>
+									<li id="hh"><a class="scroll" data-toggle="modal" data-target="#add_announce">添加公告</a>
+									<li class="hh"><a class="scroll" data-toggle="modal" data-target="#change_announce">修改公告</a>
+									<li><a class="dropdown-toggle btn-xs" data-toggle="dropdown">
+											<span class="glyphicon glyphicon-user">{{user.userName}}<span>
+										</a>
+										<ul class="dropdown-menu" role="menu">
+											<li>
+												<a href="#/boss/bpersonalInfo">个人中心</a>
+											</li>
+											<li><a ng-click="reLogin()">
+												<span class="glyphicon glyphicon-log-out">退出</span></a>
+											</li>
+										</ul> 
+									</li>
+									<li></li>
+								</ul>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div><!-- end导航-->
+
+		<!--添加公告模态框开始-->
+			<div id="add_announce" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="change_modal" aria-hidden="true" data-backdrop="true" ng-controller="announceCtrl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="change_modal">添加公告</h4>
+					</div>
+					<div class="modal-body">
+						<!--修改公告标签页-->
+						<ul id="change_tab" class="nav nav-tabs">
+							<li class="active">
+								<a href="#tab" data-toggle="tab">添加公告</a>
+							</li>
+						</ul>
+						<div id="change_tab_content" class="tab-content">
+							<form id="addAnnounce">
+								<div class="tab-pane fade in active" id="tab">
+									<div class="input-group input-group-title">
+										<span class="input-group-addon">标题</span>
+										<input type="text" name="anTitle" class="form-control" placeholder="请输入公告标题"/>
+									</div>
+									<br/>
+									<div class="input-group input-group-body">
+										<span class="input-group-addon">内容</span>
+										<textarea class="form-control" name="anDesc" placeholder="请输入公告的内容"></textarea>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--标签页结束-->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal"ng-click="addAnnounce()">添加</button>
+					</div>
+				</div>
+			</div>
+			<!--添加公告模态框结束-->
+
+			<!--修改公告模态框开始-->
+			<div id="change_announce" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="change_modal" aria-hidden="true" data-backdrop="true" ng-controller="announceCtrl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="change_modal">修改公告通知</h4>
+					</div>
+					<div class="modal-body">
+						<!--修改公告标签页-->
+						<ul id="change_tab" class="nav nav-tabs">
+							<li class="active">
+								<a ng-click="chooseTab(0)" data-toggle="tab">公告一</a>
+							</li>
+							<li>
+								<a ng-click="chooseTab(1)" data-toggle="tab">公告二</a>
+							</li>
+							<li>
+								<a ng-click="chooseTab(2)" data-toggle="tab">公告三</a>
+							</li>
+							<li>
+								<a ng-click="chooseTab(3)" data-toggle="tab">公告四</a>
+							</li>
+							<li>
+								<a ng-click="chooseTab(4)" data-toggle="tab">公告五</a>
+							</li>
+						</ul>
+						<div id="change_tab_content" class="tab-content">
+							<div class="tab-pane fade in active" ng-show="tabs[0]" id="tab1">
+								<div class="input-group input-group-title">
+									<span class="input-group-addon">标题</span>
+									<input type="text" ng-model="announces[0].anTitle"class="form-control" placeholder="请输入公告标题"/>
+								</div>
+								<br/>
+								<div class="input-group input-group-body">
+									<span class="input-group-addon">内容</span>
+									<textarea class="form-control" ng-model="announces[0].anDesc" placeholder="请输入公告的内容"></textarea>
+								</div>
+							</div>
+							<div class="tab-pane fade in active" ng-show="tabs[1]" id="tab2">
+								<div class="input-group input-group-title">
+									<span class="input-group-addon">标题</span>
+									<input type="text" ng-model="announces[1].anTitle" class="form-control" placeholder="请输入公告标题" />
+								</div>
+								<br/>
+								<div class="input-group input-group-body">
+									<span class="input-group-addon">内容</span>
+									<textarea class="form-control" ng-model="announces[1].anDesc" placeholder="请输入公告的内容" ></textarea>
+								</div>
+							</div>
+							<div class="tab-pane fade in active" ng-show="tabs[2]" id="tab3">
+								<div class="input-group input-group-title">
+									<span class="input-group-addon">标题</span>
+									<input type="text" ng-model="announces[2].anTitle" class="form-control" placeholder="请输入公告标题" />
+								</div>
+								<br/>
+								<div class="input-group input-group-body">
+									<span class="input-group-addon">内容</span>
+									<textarea class="form-control" ng-model="announces[2].anDesc" placeholder="请输入公告的内容" ></textarea>
+								</div>
+							</div>
+							<div class="tab-pane fade in active" ng-show="tabs[3]" id="tab4">
+								<div class="input-group input-group-title">
+									<span class="input-group-addon">标题</span>
+									<input type="text" ng-model="announces[3].anTitle" class="form-control" placeholder="请输入公告标题" />
+								</div>
+								<br/>
+								<div class="input-group input-group-body">
+									<span class="input-group-addon">内容</span>
+									<textarea class="form-control" ng-model="announces[3].anDesc" placeholder="请输入公告的内容" ></textarea>
+								</div>
+							</div>
+							<div class="tab-pane fade in active" ng-show="tabs[4]" id="tab5">
+								<div class="input-group input-group-title">
+									<span class="input-group-addon">标题</span>
+									<input type="text" ng-model="announces[4].anTitle" class="form-control" placeholder="请输入公告标题" />
+								</div>
+								<br/>
+								<div class="input-group input-group-body">
+									<span class="input-group-addon">内容</span>
+									<textarea class="form-control" ng-model="announces[4].anDesc" placeholder="请输入公告的内容" ></textarea>
+								</div>
+							</div>
+						</div>
+						<!--标签页结束-->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-success" data-dismiss="modal"ng-click="changeAnnounce()">更改</button>
+					</div>
+				</div>
+			</div>
+			<!--修改公告模态框结束-->

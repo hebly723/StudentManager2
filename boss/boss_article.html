@@ -1,0 +1,127 @@
+<link rel="stylesheet" type="text/css" href="css/boss_article.css">
+<link rel="stylesheet" type="text/css" 
+  href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css">
+<div style="background-color:rgba(0,0,0,0.3);border-bottom:none;" class="navbar navbar-default default-menu menu" role="navigation">
+      <div class="container nav_container">
+        <div class="row">
+          <div class=" col-sm-2 ">
+            <a class="navbar-brand default-logo" href="#/boss"></a>
+          </div>
+          <div class=" col-sm-8 col-sm-offset-2">
+            <div class="collapse navbar-collapse  navbar-right" id="menu">
+                <ul class="nav navbar-nav" id="logged">
+                  <li><a class="scroll" href="#/boss">首页</a></li>
+                  <li><a class="scroll" href="#/boss#event">查看活动</a>
+                  </li>
+                  <li><a class="scroll" href="#/boss/myTask">我的任务</a>
+                  </li>
+                  <li><a class="dropdown-toggle btn-xs" data-toggle="dropdown">
+                      <span class="glyphicon glyphicon-user">{{user.userName}}<span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <a href="#/boss/bpersonalInfo">个人中心</a>
+                      </li>
+                      <li><a class="scroll" ng-click="reLogin()">
+                        <span class="glyphicon glyphicon-log-out">退出</span></a>
+                      </li>
+                    </ul> 
+                  </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end导航-->
+<div ng-controller="bTaskCtrl">
+	<section>
+		<div class="container">
+			<div class="col-md-offset-2 col-md-8 article">
+				<form class="form-horizontal" id="taskForm" role="form" name="taskForm">
+  					<div class="form-group">
+    					<label for="tasTitle" class="col-sm-2 control-label">标题</label>
+    					<div class="col-sm-5">
+      						<input type="text" class="form-control" id="tasTitle" name="tasTitle" placeholder="请输入标题" required />
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="tasDueDate" class="col-sm-2 control-label">任务截止时间
+    					</label>
+    					<div class="col-sm-5">
+      						<input type="text" placeholder="请点击来确定时间" id="end_task" name="tasDueDate" class="form_datetime">
+    					</div>
+  					</div>
+  					<div class="form-group">
+  						<label for="tasDesc" class="col-sm-2 control-label">内容</label>
+  						<div class="col-sm-5">
+  							<textarea name="tasDesc" cols="40" rows="4"></textarea>
+  						</div>
+  					</div>
+  					<div class="form-group">
+  						<label for="tasDueId" class="col-sm-2 control-label">分配给 </label>
+  						<select id="tasDueId" ng-model="toWho" ng-options="teacher.userName for teacher in teachers" ng-show="choose">
+  							<option value="">请选择</option>
+  						</select>
+              <select id="tasDueId" ng-model="toWho" ng-hide="choose">
+                <option value="">请选择</option>
+                <option value="全校活动">全校活动</option>
+                <option value="航天学院">航天学院</option>
+                <option value="电子与信息工程">电子与信息工程</option>
+                <option value="材料科学与工程">材料科学与工程</option>
+                <option value="能源科学与工程">能源科学与工程</option>
+                <option value="电气工程及其自动化">电气工程及其自动化</option>
+                <option value="理学院">理学院</option>
+                <option value="经济与管理学院">经济与管理学院</option>
+                <option value="人文与社会科学">人文与社会科学</option>
+                <option value="马克思主义学院">马克思主义学院</option>
+                <option value="土木工程">土木工程</option>
+                <option value="市政环境工程">市政环境工程</option>
+                <option value="建筑学院">建筑学院</option>
+                <option value="交通科学与工程">交通科学与工程</option>
+                <option value="计算机科学与技术">计算机科学与技术</option>
+                <option value="软件学院">软件学院</option>
+                <option value="法学院">法学院</option>
+                <option value="化工与化学学院">化工与化学学院</option>
+                <option value="外国语学院">外国语学院</option>
+                <option value="生命科学与技术">生命科学与技术</option>
+                <option value="体育部">体育部</option>
+                <option value="经济管理与人文社会科学">经济管理与人文社会科学</option>
+              </select>
+              <input type="radio" name="choose" ng-value="true" ng-model="choose"/>分配给协理员
+              <input type="radio" name="choose" ng-value="false" ng-model="choose"/>分配给学院
+  					</div>
+  					<div class="form-group">
+  						<label for="tasDoc1Name" class="col-sm-2 control-label">上传文件
+  						</label>
+  						<div class="col-sm-5">
+  							<input type="file" id="tasDoc1Name" name="file1" />
+  						</div>
+  					</div>
+
+  					<button class="btn btn-primary" ng-click="createTask2()">ok</button>
+            <input type="hidden" name="tasAcId" value="0" />
+				</form>
+			</div>
+		</div>
+
+	</section>
+</div>
+<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8">
+</script>
+<script type="text/javascript" src="bower_components/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js" 
+  charset="UTF-8"></script>
+<script type="text/javascript">
+$('#end_task').datetimepicker({
+    language:  'zh-CN',
+    format: "yyyy-MM-dd hh:ii",
+    weekStart: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 1,
+    forceParse: 0,
+    todayBtn:true,
+  }).on("click", function (ev) {
+    $("#end_join").datetimepicker("setStartDate", $("#start_join").val());
+});
+</script>

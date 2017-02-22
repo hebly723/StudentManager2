@@ -1,0 +1,130 @@
+<link rel="stylesheet" type="text/css" href="css/student_personal.css">
+<style type="text/css">
+	span.error {color: red;}
+</style>
+	<section class="locate">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-1 col-md-5">
+					<span>您现在的位置：</span><a href="#/student">首页</a><span>——&gt;</span>
+					<a href="#/student/personalInfo">个人中心</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="personal">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2">
+					<ul class="list-group">
+						<!--<li class="list-group-item"><a href="#/student/personalInfo#information" data-toggle="tab">查看通知</a></li>-->
+						<li class="list-group-item"><a href="#/student/personalInfo#changeInfo" data-toggle="tab">个人信息</a></li>
+						<li class="list-group-item"><a href="#/student/personalInfo#changePassword" data-toggle="tab">修改密码</a></li>
+					</ul>
+				</div>
+				<div class="col-md-9">
+						<div class="tab-content">
+							<!--个人中心通知部分-->
+							<div class="tab-pane fade" id="information" ng-controller="tInformCtrl">
+								<ul class="myTab nav nav-tabs">
+									<li class="active"><a ng-click="chooseInform('new')" data-toggle="tab">未读消息</a></li>
+									<li><a ng-click="chooseInform('readed')" data-toggle="tab">已读消息</a></li>
+								</ul>
+								<div class="infor-item"	ng-repeat="inform in informs">
+									<p class="infor_person">通知人：{{message.from}}</p>
+									<p class="infor_time">通知时间：{{message.time}}</p>
+									<p class="infor_content">内容：{{message.content}}</p>
+									<!-- <button class="response btn btn-primary" data-toggle="modal" data-target="#response{{$index}}" ng-click="init($index)">回复</button> -->
+								</div>
+								<tm-pagination class="page" conf="tInformPage"></tm-pagination>
+								<!--回复框-->
+								<div class="modal fade" id="response{{$index}}" tebindex="-1"
+									role="dialog" aria-labelledby="responseModalLabel" 
+									aria-hidden="true" data-backdrop="false">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											</div>
+											<form name="myForm">
+											<div class="modal-body">
+												<textarea class="form-control response_input" placeholder="在这里输入要回复的信息"
+												ng-model="messages[$index].answer" ng-required="true"></textarea>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+												<button type="button" class="btn btn-primary"
+													 data-dismiss="modal" 
+													 ng-click="reply($index)" ng-disabled="myForm.$invalid">发送</button>
+											</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<!--回复框结束-->
+
+
+							</div>
+							<!--个人中心通知部分结束-->
+
+							<!--个人中心个人信息开始-->
+							<form class="tab-pane fade in active form-control" id="changeInfo" action="">
+								<span style="color: red; padding-left: 240px;">请填写正确的信息，以防错过重要通知！</span>
+								<br />
+								<div class="input-group changeInfo-item">
+									<span class="input-group-addon">手机号：</span>
+									<input type="text" class="form-control" ng-model="user.tel" required=" ">
+								</div>
+								<div class="input-group changeInfo-item">
+									<span class="input-group-addon">QQ号：</span>
+									<input type="text" class="form-control" ng-model="user.QQ" required=" ">
+								</div>
+								<div class="input-group changeInfo-item">
+									<span class="input-group-addon">邮箱：</span>
+									<input type="text" class="form-control" ng-model="user.email" required=" ">
+								</div>
+								<button class="btn btn-success" ng-click="changeInfo()">提交</button>
+							</form>
+							<!--个人中心个人信息结束-->
+
+							<!--个人中心修改密码部分-->
+							<div class="tab-pane fade" id="changePassword">
+								<form name="form1">
+									<span  style="padding-left: 300px;" class="error" ng-show="isSame">两次密码不一致</span>
+									<br>
+									<span>输入新密码：</span>
+									<input class="password1 form-control" placeholder="输入新密码" ng-model="newPass.newPassword" ng-required="true" />
+									<span>确定新密码：</span>
+									<input class="password2 form-control" placeholder="再次输入新密码" ng-model="newPass.reNewPassword" ng-required="true" />
+									<button class="btn btn-success" ng-disabled="form1.$invalid" ng-click="changPass()">修改</button>
+								</form>
+							</div>
+							<!--修改密码成功，返回登录界面-->
+							<div class="modal fade" id="change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  								<div class="modal-dialog">
+    								<div class="modal-content">
+      									<div class="modal-header">
+        									<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="reLogin()">
+        										&times;</button>
+       										 <h4 class="modal-title" id="myModalLabel">修改成功</h4>
+      									</div>
+      									<div class="modal-body">
+        									密码修改成功，请重新登录！
+      									</div>
+      									<div class="modal-footer">
+        									<button type="button" class="btn btn-default" 
+        									ng-click="reLogin()" data-dismiss="modal">确定</button>
+      									</div>
+    								</div>
+ 					 			</div>
+							</div>
+							<!--修改密码成功，返回登录界面-->
+							<!--个人中心修改密码结束-->
+						</div>
+					<!--个人中心右侧结束-->
+				</div>
+			</div>
+		</div>
+	</section> 

@@ -1,0 +1,87 @@
+<link rel="stylesheet" type="text/css" href="css/teacher_article.css">
+<link rel="stylesheet" type="text/css" 
+	href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css">
+<div ng-controller="bTaskCtrl">
+<section class="locate">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-5">
+				<span>您现在的位置：</span><a href="#/boss">首页</a><span>——&gt;</span><a href="#/boss/altTask/{{task.tasId}}">任务修改</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-2	 col-md-8 article">
+				<form id="changeActForm" method="post">
+          <input type="hidden" name="tasCreId" value="{{user.userId}}" />
+          <input type="hidden" name="tasId" value="{{task.tasId}}">
+          <div style="color:#121212;" class="col-sm-8 eventlist">
+            任务标题：<h2 id="title1" class="article_title">{{task.tasTitle}}</h2><a href="" onClick="input_cg(this)">修改标题</a>
+            <div class="time">
+              <span>截止时间:</span><input type="text" id="end_task" name="tasDueDate" class="form_datetime" value="{{task.tasDueDate}}">&nbsp;&nbsp;
+            </div>
+            <div>
+              <span>执行人：</span>
+              <span ng-repeat="p in task.tasDue">{{p.name}} </span>
+            </div>
+            <div >
+              <span>任务内容：</span> <br />
+              &nbsp;&nbsp;
+              <p class="article_content" id="content1" style="font-size:17px;"><em>{{task.tasDesc}}</em></p><a href="" onClick="textarea_cg(this)">修改内容</a>
+            </div><br />
+            <div>
+              <span>相关文件：{{task.tasDoc1Name}}</span>
+              <input type="file" id="join_file" name="file1">
+            </div>
+            <button type="submit" class="upload btn btn-success" ng-click="altTask()">确定修改</button>
+          </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+</div>
+<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8">
+</script>
+<script type="text/javascript" src="bower_components/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js" 
+	charset="UTF-8"></script>
+<script type="text/javascript">
+$('#end_task').datetimepicker({
+    language:  'zh-CN',
+    format: "yyyy-MM-dd hh:ii",
+    weekStart: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 1,
+    forceParse: 0,
+    todayBtn:true,
+  }).on("click", function (ev) {
+    $("#end_join").datetimepicker("setStartDate", $("#start_join").val());
+});
+
+var textarea_cg = function (obj){
+  var content1 = $("#content1");
+  if(content1.attr("id") == undefined) return false;
+  var content = content1.text();
+  content1.remove();
+  var str = "<textarea cols='60' rows='5' resize='false' id='content2' name='tasDesc'>"
+          + content + "</textarea><br />";
+  $(obj).before(str);
+  return false;
+}
+
+var  input_cg = function(obj){
+  var title1 = $("#title1");
+  if(title1.attr("id") == undefined) return false;
+  var title = title1.text();
+  title1.remove();
+  var str = "<input id='title2' type='text' name='tasTitle' value='"+ title +"' />";
+  $(obj).before(str);
+  return false;
+}
+</script>

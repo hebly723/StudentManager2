@@ -1,0 +1,111 @@
+<link rel="stylesheet" type="text/css" href="css/boss_article.css">
+<link rel="stylesheet" type="text/css" 
+  href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" type="text/css" href="mutiselect/multiselectSrc/jquery.multiselect.css" />
+<link rel="stylesheet" type="text/css" href="mutiselect/assets/style.css" />
+<link rel="stylesheet" type="text/css" href="mutiselect/assets/prettify.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<div style="background-color:rgba(0,0,0,0.3);border-bottom:none;" class="navbar navbar-default default-menu menu" role="navigation">
+      <div class="container nav_container">
+        <div class="row">
+          <div class=" col-sm-2 ">
+            <a class="navbar-brand default-logo" href="#/boss"></a>
+          </div>
+          <div class=" col-sm-8 col-sm-offset-2">
+            <div class="collapse navbar-collapse  navbar-right" id="menu">
+                <ul class="nav navbar-nav" id="logged">
+                  <li><a class="scroll" href="#/boss">首页</a></li>
+                  <li><a class="scroll" href="#/boss#event">查看活动</a>
+                  </li>
+                  <li><a class="scroll" href="#/boss/myTask">我的任务</a>
+                  </li>
+                  <li><a class="dropdown-toggle btn-xs" data-toggle="dropdown">
+                      <span class="glyphicon glyphicon-user">{{user.userName}}<span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <a href="#/boss/bpersonalInfo">个人中心</a>
+                      </li>
+                      <li><a class="scroll" ng-click="reLogin()">
+                        <span class="glyphicon glyphicon-log-out">退出</span></a>
+                      </li>
+                    </ul> 
+                  </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end导航-->
+<div ng-controller="bActivityCtrl">
+	<section ng-controller="bTaskCtrl">
+		<div class="container">
+			<div class="col-md-offset-2 col-md-8 article">
+        <h3 style="padding-left:140px;margin-bottom:20px;">选择老师处理 <em style="color:red;">{{activity.acTitle}}</em> 活动的报名</h3>
+				<form class="form-horizontal" id="taskForm" role="form" name="taskForm">
+  					<div class="form-group">
+    					<label for="tasTitle" class="col-sm-2 control-label">标题</label>
+    					<div class="col-sm-5">
+      						<input type="text" class="form-control" id="tasTitle" name="tasTitle" placeholder="请输入标题" required />
+    					</div>
+  					</div>
+  					<div class="form-group">
+    					<label for="tasDueDate" class="col-sm-2 control-label">任务截止时间
+    					</label>
+    					<div class="col-sm-5">
+      						<input type="text" placeholder="请点击来确定时间" id="end_task" name="tasDueDate" class="form_datetime">
+    					</div>
+  					</div>
+  					<div class="form-group">
+  						<label for="tasDesc" class="col-sm-2 control-label">内容</label>
+  						<div class="col-sm-5">
+  							<textarea name="tasDesc" cols="40" rows="4"></textarea>
+  						</div>
+  					</div>
+  					<div class="form-group">
+  						<label for="tasDoc1Name" class="col-sm-2 control-label">上传文件
+  						</label>
+  						<div class="col-sm-5">
+  							<input type="file" id="tasDoc1Name" name="file1" />
+  						</div>
+  					</div>
+            <div class="form-group">
+              <label for="tasDue" class="col-sm-2 control-label">选择处理人：</label><br />
+              <div class="col-sm-12">
+                <select id="tasDueSelect" multiple="multiple" size="5">
+                  
+                </select>
+              </div> 
+            </div>
+
+  					<button class="btn btn-primary" ng-click="createTask()">ok</button>
+            <input type="hidden" name="tasAcId" value="{{activity.acId}}" />
+				</form>
+			</div>
+		</div>
+
+</div>
+<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8">
+</script>
+<script type="text/javascript" src="bower_components/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js" 
+  charset="UTF-8"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="mutiselect/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="mutiselect/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="mutiselect/assets/prettify.js"></script>
+<script type="text/javascript" src="mutiselect/multiselectSrc/jquery.multiselect.js"></script>
+<script type="text/javascript">
+$('#end_task').datetimepicker({
+    language:  'zh-CN',
+    format: "yyyy-MM-dd hh:ii",
+    weekStart: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 1,
+    forceParse: 0,
+    todayBtn:true,
+  }).on("click", function (ev) {
+    $("#end_join").datetimepicker("setStartDate", $("#start_join").val());
+});
+</script>

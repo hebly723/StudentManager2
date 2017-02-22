@@ -1,0 +1,59 @@
+<link rel="stylesheet" type="text/css" href="css/applyDetail.css">
+<script async src="js/flatpickr.min.js"></script>
+<div ng-controller="bActivityCtrl">
+<div style="background-color:rgba(0,0,0,0.3);border-bottom:none;" class="navbar navbar-default default-menu menu" role="navigation">
+	<div class="container nav_container">
+		<div class="row">
+			<div class=" col-sm-2 ">
+				<a class="navbar-brand default-logo" href="#/boss"></a>
+			</div>
+			<div class=" col-sm-8 col-sm-offset-2">
+				<div class="collapse navbar-collapse  navbar-right" id="menu">
+					<ul class="nav navbar-nav" id="logged">
+						<li><a class="scroll" href="#/boss">首页</a></li>							
+						<li><a class="scroll" href="#/boss#event">查看活动</a></li>
+						<li><a class="dropdown-toggle btn-xs" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-user">{{user.userName}}<span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a href="#/boss/bpersonalInfo">个人中心</a>
+								</li>
+								<li><a class="scroll" ng-click="reLogin()">
+									<span class="glyphicon glyphicon-log-out">退出</span></a>
+								</li>
+							</ul> 								
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<section>
+	<div class="container">
+		<!-- <ul class="nav nav-tabs">
+				<li class="active"><a ng-click="chooseApply('new')" data-toggle="tab">未处理</a></li>
+				<li><a ng-click="chooseApply('handled')" data-toggle="tab">已处理</a>
+				</li>
+			</ul> -->
+		<div class="row">
+			<div class="col-md-offset-2	 col-md-8 article">
+				<h2><em>{{activity.acTitle}}</em>&nbsp;&nbsp;<a href="http://www.ly723.site:2048/StudentManager2/StudentInfoExcel.action?activityId={{activity.acId}}" ng-hide="applyDetail.length==0"
+				style="font-size:15px;">导出报名名单</a></h2>
+				<div class="infor-item" ng-repeat="apply in applyDetail">
+					<span>学生ID：{{apply.sigPerId}}</span><br />
+					<span>学生姓名：{{apply.sigPerName}}</span><br />
+					<span>报名时间：{{apply.sigDate}}</span><br />
+					<span>报名文件：</span><a href="http://www.ly723.site:2048/StudentManager2/SignfileDownload.action?fileName={{apply.sigDoc1Name}}&sigId={{apply.sigId}}">{{apply.sigDoc1Name}}</a><br/>
+					<div ng-hide="apply.sigStatus == 0" class="pass">
+						<span class="badge overtime" ng-show="apply.sigStatus == 2">未通过</span>
+						<span class="badge doing" ng-show="apply.sigStatus == 1">已通过</span>
+					</div>
+				</div>
+				<tm-pagination conf="applyDetailPage"></tm-pagination>
+		</div>
+	</div>
+</section>
+</div>

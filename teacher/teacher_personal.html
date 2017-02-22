@@ -1,0 +1,412 @@
+<link rel="stylesheet" type="text/css" href="css/teacher_personal.css">
+<link rel="stylesheet" type="text/css" 
+	href="bower_components/bootstrap/css/bootstrap-datetimepicker.min.css">
+<section class="locate">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-5">
+				<span>您现在的位置：</span><a href="#/teacher">首页</a><span>——&gt;</span><a href="#/teacher/tpersonalInfo">个人中心</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="personal">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#/teacher/tpersonalInfo#task" data-toggle="tab">查看任务</a></li>
+					<li class="list-group-item"><a href="#/teacher/tpersonalInfo#information" data-toggle="tab">查看消息</a></li>
+					<li class="list-group-item"><a href="#/teacher/tpersonalInfo#send" data-toggle="tab">发送消息</a></li>
+					<li class="list-group-item"><a href="#/teacher/tpersonalInfo#excel" data-toggle="tab">年终报表</a></li>
+					<li class="list-group-item"><a href="#/teacher/tpersonalInfo#changeInfo" data-toggle="tab">个人信息</a></li>
+					<li class="list-group-item"><a href="#/teacher/tpersonalInfo#changePassword" data-toggle="tab">修改密码</a></li>
+				</ul>
+			</div>
+			<div class="col-md-9">
+				<div class="tab-content">
+					<!--个人中心个人信息开始-->
+					<form class="tab-pane fade in active form-control" id="changeInfo" action="">
+						<span style="color: red; padding-left: 240px;">请填写正确的信息，以防错过重要通知！</span>
+						<br />
+						<div class="input-group changeInfo-item">
+							<span class="input-group-addon">手机号：</span>
+							<input type="text" class="form-control" ng-model="user.tel" required=" ">
+						</div>
+						<div class="input-group changeInfo-item">
+							<span class="input-group-addon">QQ号：</span>
+							<input type="text" class="form-control" ng-model="user.QQ" required=" ">
+						</div>
+						<div class="input-group changeInfo-item">
+							<span class="input-group-addon">邮箱：</span>
+							<input type="text" class="form-control" ng-model="user.email" required=" ">
+						</div>
+						<button class="btn btn-success" ng-click="changeInfo()">提交</button>
+					</form>
+					<!--个人中心个人信息结束-->
+
+					<!--个人中心任务部分-->
+					<div class="tab-pane fade" id="task" ng-controller="tTaskCtrl">
+						<ul class="myTab nav nav-tabs">
+							<li class="active"><a ng-click="chooseTask('new')" data-toggle="tab">新任务{{t.currentPage}}</a></li>
+							<li><a ng-click="chooseTask('over')" data-toggle="tab">已结束任务</a></li>
+						</ul>
+						<div class="infor-item" ng-repeat="task in tasks">
+							<p><h2>{{task.tasTitle}}<span class="badge wait" ng-show="task.status==0">未执行</span><span class="badge doing" ng-show="task.status==1">正在执行</span><span class="badge" ng-show="task.status==2">已完成</span><span class="badge overtime" ng-show="task.status==3">超时</span></h2></p>
+							<p class="infor_person">通知人：{{task.tasCreName}}</p>
+							<p class="infor_time">通知时间：{{task.tasCreDate}}</p>
+							<p class="infor_time">完成时间：{{task.tasDueDate}}</p>
+							<p class="infor_content">内容：{{task.tasDesc}}</p>
+							<span>下载相关文件</span>
+							<a href="http://www.ly723.site:2048/StudentManager2/taskfileDownload.action?fileName={{task.tasDoc1Name}}&tasId={{task.tasId}}" class="btn">{{task.tasDoc1Name}}</a>
+							<a href="http://www.ly723.site:2048/StudentManager2/taskfileDownload.action?fileName={{task.tasDoc2Name}}&tasId={{task.tasId}}" class="btn">{{task.tasDoc2Name}}</a>
+							<a href="http://www.ly723.site:2048/StudentManager2/taskfileDownload.action?fileName={{task.tasDoc3Name}}&tasId={{task.tasId}}" class="btn">{{task.tasDoc3Name}}</a>
+							<form id="finishForm{{$index}}">
+								<input type="file" name="file1" /><br />
+								<input type="hidden" name="tasDueId" value="{{user.userId}}" />
+								<input type="hidden" name="tasId" value="{{task.tasId}}" />
+								<div class="btn-toolbar">
+									<button class="btn btn-primary" ng-disabled="task.status==2 || task.status==1 || task.status==3" ng-click="start(task.tasId, user.userId, $index)">开始工作</button>
+									<button class="dotask btn btn-primary" ng-disabled="task.status==0 || task.status==2 || task.status==3" ng-click="finishTask($index)">完成任务</button>
+								</div>
+							</form>
+						</div>
+						<tm-pagination class="page" conf="tTaskPage"></tm-pagination>	
+      				</div>
+
+					
+      				<!--个人中心任务部分结束-->
+
+      				<!--个人中心通知部分-->
+					<div class="tab-pane fade" id="information" ng-controller="tInformCtrl">
+						<ul class="myTab nav nav-tabs">
+							<li class="active"><a ng-click="chooseInform('new')" data-toggle="tab">未读消息</a></li>
+							<li><a ng-click="chooseInform('readed')" data-toggle="tab">已读消息</a></li>
+							<li><a ng-click="chooseInform('sended')" data-toggle="tab">已发送消息</a></li>
+						</ul>
+						<div class="infor-item" ng-repeat="inform in informs">
+							<p class="infor_person" ng-hide="inform.notSenName==null">通知人：{{inform.notSenName}}</p>
+							<p class="infor_person" ng-hide="inform.notRecName==null">接收人：{{inform.notRecName}}</p>
+							<p class="infor_time">通知时间：{{inform.notSenDate}}</p>
+							<p class="infor_content">内容：{{inform.notDet}}</p>
+							<!-- <button class="response btn btn-primary" data-toggle="modal" data-target="#response">回复</button> -->
+						<button class="btn btn-success" ng-click="read(inform.notId, $index)" ng-show="inform.notStatus=='0'&&inform.notSenId!=user.userId">标为已读</button>
+						</div>
+						<tm-pagination class="page" conf="tInformPage"></tm-pagination>
+
+
+						<!--回复框-->
+						<div class="modal fade" id="response" tebindex="-1" role="dialog" aria-labelledby="responseModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									</div>
+									<div class="modal-body">
+										<textarea class="form-control response_input" placeholder="在这里输入要回复的信息"></textarea>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+										<button type="button" class="btn btn-primary">发送</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--回复框结束-->
+					</div>
+					<!--个人中心通知部分结束-->
+
+					<!--个人中心发送通知部分-->
+					<div class="tab-pane fade" id="send" ng-controller="tMessageCtrl">
+						<div class="container" ng-init="selectBoss()">
+							<form id="message" name="myform"> 
+								<table class="send_table"> 
+									<tr> 
+										<td class="list1_td"> 
+											<select multiple name="list1" class="list1 form-control" ondblclick="moveOption(document.myform.list1, document.myform.list2)">
+													<!--用forEach遍历出所有的option-->
+												<option ng-repeat="boss in bosses" value="{{boss.userId}}">{{boss.userName}}</option> 
+											<select> 
+										</td> 
+										<td class="button_td">
+											<input type="button" value="添加" onclick="moveOption(document.myform.list1, document.myform.list2)" class="btn btn-primary list_button addone">
+											<input type="button" value="全部添加" onclick="moveAllOption(document.myform.list1, document.myform.list2)" class="btn btn-primary list_button addall"><br/> 
+											<input type="button" value="移除" onclick="moveOption(document.myform.list2, document.myform.list1)" class="btn btn-primary list_button removeone">
+											<input type="button" value="全部移除" onclick="moveAllOption(document.myform.list2, document.myform.list1)" class="btn btn-primary list_button removeall"><br/>
+										</td> 
+										<td class="list2_td"> 
+											<select multiple name="list2" class="list2 form-control" ondblclick="moveOption(document.myform.list2, document.myform.list1)"> 
+											<select>  
+										</td> 
+									</tr> 
+								</table> 
+								<textarea class="form-control send_textarea" placeholder="请输入要发送的通知的内容"></textarea>
+								<button class="btn btn-success send_btn" ng-click="sendMessage()">发送</button>
+							</form> 
+						</div>
+					</div>
+					<!--个人中心发送通知结束-->
+
+					<!--个人中心年终报表开始-->
+					<div style="padding:30px 20px 100px 20px;" class="tab-pane fade " id="excel" ng-controller="tReportCtrl">
+						<form id="report">
+							<div class="row">
+								<h4 class="excel_h4">学生管理</h4>
+								<hr>
+								<div class="col-xs-12 input-group">
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">党支部研究生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">党支部博士生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">研究生社团数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;" >
+										<span class="excel_span">贷款学生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">少数民族学生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">困难学生研究生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">困难学生博士生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">长期外地工作研究生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;" >
+										<span class="excel_span">长期外地工作博士生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">获得困难补助人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">院系发放补助金额：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">校级处分人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">获省级以上个人奖数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">获省级以上集体奖数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">院级特殊奖学金人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">是否有思政网站：</span>
+										<select class="excel_select">
+											<option value="是">是</option>
+											<option value="否">否</option>
+										</select>
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">院网站是否有思政专栏：</span>
+										<select class="excel_select">
+											<option value="是">是</option>
+											<option value="否">否</option>
+										</select>
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">学生宿舍数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">不在线内住宿学生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">退学人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">休学人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">未按期毕业硕士生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">未按期毕业博士生数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">研究生就业率数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">国防就业率：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-10 excel-item"style="text-align:right;">
+										<span class="excel_span">研究生思政工作者发表论文数（核心及以上）：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">承担校内课题数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">承担省级以上课题数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">参加校级以上培训人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">QQ群数量：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">微信群数量：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">研究成果数：</span><input class="excel_input" required="">
+									</div>
+								</div>
+								<hr>
+								<h4 class="excel_h4">学术活动</h4>
+								<hr>
+								<div class="col-xs-12 input-group">
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">硕士生发表论文数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">博士生发表论文数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">研究生获专利数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">省级及以上竞赛获奖数：</span><input class="excel_input" required="">
+									</div>
+								</div>
+
+								<hr>
+								<h4 class="excel_h4">文体活动</h4>
+								<hr>
+								<div class="col-xs-12 input-group">
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">举办院级以上文艺活动数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">举办院级以上体育活动数：</span><input class="excel_input" required="">
+									</div>
+								</div>
+
+								<hr>
+								<h4 class="excel_h4">党建工作</h4>
+								<hr>
+								<div class="col-xs-12 input-group">
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">党员数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">新发展党员数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">确定积极分子数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">党日活动数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-10 excel-item"style="text-align:right;">
+										<span class="excel_span">校级及以上表彰党员获奖人数：</span><input class="excel_input" required="">
+									</div>
+								</div>
+
+								<hr>
+								<h4 class="excel_h4">日常活动</h4>
+								<hr>
+								<div class="col-xs-12 input-group">
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">研究生因公外出人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">办理保险人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">研究生活动品牌数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">院级骨干培训期数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">院级骨干培训人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">年级大会次数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">座谈会次数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">专题调研期数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">发放问卷数量：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">主题活动数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">主题讲座报告数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-5 excel-item"style="text-align:right;">
+										<span class="excel_span">心理普查人数：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-10 excel-item"style="text-align:right;">
+										<span class="excel_span">其他经费投入研究生工作额度（元）：</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-10 excel-item"style="text-align:right;">
+										<span class="excel_span">《哈工大报》刊登宣传报道篇数</span><input class="excel_input" required="">
+									</div>
+									<div class="col-xs-10 excel-item"style="text-align:right;">
+										<span class="excel_span">制定研究生工作政策文件个数</span><input class="excel_input" required="">
+									</div>
+								</div>
+							</div>
+							<button style="float:right;margin-bottom:30px;margin-right:109px;margin-top:30px;" class="btn btn-success" ng-click="sendReport()">提交</button>
+						</form>
+					</div>
+					<!--个人中心年中报表结束-->
+
+					<!--个人中心修改密码部分-->
+					<div class="tab-pane fade" id="changePassword">
+						<form name="form1">
+							<span  style="padding-left: 300px;" class="error" ng-show="isSame">两次密码不一致</span>
+							<br>
+							<span>输入新密码：</span>
+							<input class="password1 form-control" placeholder="输入新密码" ng-model="newPass.newPassword" ng-required="true" />
+							<span>确定新密码：</span>
+							<input class="password2 form-control" placeholder="再次输入新密码" ng-model="newPass.reNewPassword" ng-required="true" />
+							<button class="btn btn-success" ng-disabled="form1.$invalid" ng-click="changPass()">修改</button>
+						</form>
+					</div>
+					<!--修改密码成功，返回登录界面-->
+					<div class="modal fade" id="change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  						<div class="modal-dialog">
+    						<div class="modal-content">
+      							<div class="modal-header">
+        							<button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="reLogin()">
+       									&times;</button>
+       								<h4 class="modal-title" id="myModalLabel">修改成功</h4>
+      							</div>
+      							<div class="modal-body">
+        							密码修改成功，请重新登录！
+      							</div>
+      							<div class="modal-footer">
+        							<button type="button" class="btn btn-default" 
+        							ng-click="reLogin()" data-dismiss="modal">确定</button>
+      							</div>
+    						</div>
+ 			 			</div>
+					</div>
+					<!--修改密码成功，返回登录界面-->
+					<!--个人中心修改密码结束-->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script type="text/javascript" src="bower_components/bootstrap/js/bootstrap-datetimepicker.min.js" charset="UTF-8">
+</script>
+<script type="text/javascript" src="bower_components/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js" 
+	charset="UTF-8"></script>
+<script src="js/tools.js"></script>
